@@ -10,7 +10,7 @@ ec2_instance { 'test':
   instance_type       => 't2.micro',
   key_name            => 'DevOps-Keys',
   monitoring          => 'false',
-  private_dns_name    => 'ip-10-0-0-59.ec2.internal',
+ 
   private_ip_address  => '10.0.0.59',
  
   region              => 'us-east-1',
