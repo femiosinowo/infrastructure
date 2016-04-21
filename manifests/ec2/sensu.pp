@@ -6,7 +6,8 @@ class infrastructure::ec2::sensu (
   $subnet   = hiera('infrastructure::ec2::subnet'),
   $image_id = hiera('infrastructure::ec2::image_id'),
   $vpc      = hiera('infrastructure::ec2::vpc'),
-  $iam_instance_profile_name = hiera('infrastructure::ec2::iam_instance_profile_name'),) {
+  $iam_instance_profile_name = hiera('infrastructure::ec2::iam_instance_profile_name'),
+  $iam_instance_profile_arn = hiera('infrastructure::ec2::iam_instance_profile_arn'),) {
   ec2_instance { 'sensu-server':
     ensure    => present,
     availability_zone         => $availability_zone,
@@ -20,6 +21,7 @@ class infrastructure::ec2::sensu (
     security_groups           => ['sg_sensu'],
     iam_instance_profile_name => $iam_instance_profile_name,
     subnet    => $subnet,
+    iam_instance_profile_arn => $iam_instance_profile_arn,
     tags      => {
       server_role => 'server_sensu',
     }
