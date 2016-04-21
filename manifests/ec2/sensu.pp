@@ -12,7 +12,7 @@ class infrastructure::ec2::sensu () {
     security_groups    => ['sg_sensu'],
     subnet             => 'DevOps-Public-Subnet',
     tags               => {
-      server_roles => 'server_sensu',
+      server_role => 'server_sensu',
     }
   }
 

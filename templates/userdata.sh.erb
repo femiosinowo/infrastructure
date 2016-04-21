@@ -1,42 +1,42 @@
 #!/bin/bash
-
-## Install and register Puppet on an EC2 instance.
-
-set -eux
+yum install ntp -y
+service ntpd start
+chkconfig ntpd on
  
+rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm
+yum --enablerepo=puppetlabs-devel install puppet -y
 
-## Variables
-PUPPET_HOST='puppet.gcio.cloud'
-CERTNAME='<%= @instance_name %>'
- 
-ENVIRONMENT='<%= @instance_environment %>'
- 
-## Change hostname, if it's unreachable.
-if ! nc -w 1 -z $(/bin/hostname) 22; then
-    IPV4=`ip addr show eth0 | grep 'inet ' | awk '{print $2}' | sed 's|/.*$||'`
-    echo -ne "\n${IPV4} $(/bin/hostname)" >> /etc/hosts
-fi
+puppet config set server puppet.gcio.cloud --section agent
+puppet config set environment production --section agent
 
-## Install Puppet
-if which yum; then
-    yum -qy update
-    yum -qy install puppet3
-else
-    apt-get -q  update
-    apt-get -qy upgrade || true
-    apt-get -qy install puppet
-fi
+service puppet start
 
-## Register Puppet
- 
+chkconfig puppet on
 
-if ! puppet agent --onetime --no-daemonize --logdest console; then
-    sleep 5
-    puppet agent --onetime --no-daemonize -v -d --trace --logdest console
-<% if ! @debug %>
-else
-    ## Secure Cleanup
-    shred --remove "${CSR_ATTR}" || true
-    shred --remove "$0" || true
-<% end %>
-fi   
+yum update -y
+
+#install awscli 
+curl -O https://bootstrap.pypa.io/get-pip.py
+sudo python2.7 get-pip.py
+sudo pip install awscli
+
+#this scripts gets Role and source it as fact
+
+TAG_NAME=server_role
+
+INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id/)
+
+REGION=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | grep region | awk -F\" '{print $4}')
+
+# Grab tag value
+TAG_VALUE=$(aws ec2 describe-tags --filters "Name=resource-id,Values=$INSTANCE_ID" "Name=key,Values=$TAG_NAME" --region=$REGION --output=text | cut -f5)
+
+#echo "$TAG_VALUE"
+export FACTER_ROLE="$TAG_VALUE"
+
+echo "sleeping for two minutes to prapare for puppet agent run"
+#sleep 2m
+
+#run puppet
+echo "Running puppet agent -t"
+puppet agent -t
