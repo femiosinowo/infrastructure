@@ -2,7 +2,7 @@ class infrastructure::ec2::test () {
 ec2_instance { 'test':
   ensure              => 'running',
   availability_zone   => 'us-east-1d',
-  block_devices       => [{'delete_on_termination' => 'true', 'device_name' => '/dev/sda1'}],
+ 
   ebs_optimized       => 'false',
  
   image_id            => 'ami-12663b7a',
