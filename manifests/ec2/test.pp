@@ -1,5 +1,5 @@
-class infrastructure::ec2::ddentry1 () {
-ec2_instance { 'ddentry1':
+class infrastructure::ec2::test () {
+ec2_instance { 'test':
   ensure              => 'running',
   availability_zone   => 'us-east-1d',
   block_devices       => [{'delete_on_termination' => 'true', 'device_name' => '/dev/sda1'}],
