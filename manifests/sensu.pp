@@ -63,7 +63,9 @@ class infrastructure::sensu () {
         protocol => 'tcp',
         port     => '15672',
         cidr     => '0.0.0.0/0',
-      }
+      },{
+    security_group => 'sg_sensu',
+  }
       ],
     tags        => {
       reason => 'ec2-sensu',
