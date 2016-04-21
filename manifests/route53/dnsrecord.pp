@@ -5,7 +5,7 @@ class infrastructure::route53::dnsrecord(){
   
   route53_a_record { 'sensu.gcio.cloud.':
   ensure => 'present',
-  ttl    => '300',
+  ttl    => '300', 
   values => ['10.0.0.50'],
   zone   => 'gcio.cloud.',
 }
