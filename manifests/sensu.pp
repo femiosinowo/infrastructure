@@ -1,4 +1,4 @@
-class infrastructure::sesnu () {
+class infrastructure::sensu () {
   ec2_instance { 'sensu-server':
     ensure            => present,
     region            => 'us-east-1',
