@@ -10,16 +10,17 @@ class infrastructure::sensu () {
     security_groups   => ['sg_sensu'],
     associate_public_ip_address => true,
     # user_data         => template('module/file-path.sh.erb'),
+
+    require           => Ec2_securitygroup['sg_sensu'],
     tags              => {
       server_roles => 'server_sensu',
     }
-    
   }
 
   ec2_securitygroup { 'sg_sensu':
     ensure      => present,
     region      => 'us-east-1',
-    vpc => 'vpc-410aba25',
+    vpc         => 'vpc-410aba25',
     description => 'sensu security group',
     ingress     => [
       {
