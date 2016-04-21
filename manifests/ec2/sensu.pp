@@ -19,7 +19,7 @@ class infrastructure::ec2::sensu (
     require   => Ec2_securitygroup['sg_sensu'],
     region    => $region,
     security_groups           => ['sg_sensu'],
-    iam_instance_profile_name => $iam_instance_profile_name,
+    #iam_instance_profile_name => $iam_instance_profile_name,
     subnet    => $subnet,
     iam_instance_profile_arn => $iam_instance_profile_arn,
     tags      => {
