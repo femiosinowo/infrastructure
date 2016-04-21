@@ -16,6 +16,6 @@ ec2_instance { 'test':
   region              => 'us-east-1',
   security_groups     => ['DevOps-SG-Public', 'DevOps-FreeIPA'],
   subnet              => 'DevOps-Public-Subnet',
-  virtualization_type => 'hvm',
+ 
 }
 }
