@@ -8,11 +8,12 @@ class infrastructure::sensu () {
     subnet            => 'subnet-18ab416e',
     key_name          => 'DevOps-Keys',
     security_groups   => ['sg_sensu'],
+    associate_public_ip_address => true,
     # user_data         => template('module/file-path.sh.erb'),
     tags              => {
       server_roles => 'server_sensu',
     }
-    ,
+    
   }
 
   ec2_securitygroup { 'sg_sensu':
