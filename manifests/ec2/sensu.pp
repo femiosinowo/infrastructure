@@ -1,16 +1,23 @@
-class infrastructure::ec2::sensu () {
+class infrastructure::ec2::sensu (
+  $availability_zone = hiera('infrastructure::ec2::availability_zone'),
+  $instance_type     = hiera('infrastructure::ec2::instance_type'),
+  $key_name          = hiera('infrastructure::ec2::key_name'),
+  $region            = hiera('infrastructure::ec2::region'),
+  $subnet            = hiera('infrastructure::ec2::subnet'),
+  $image_id          = hiera('infrastructure::ec2::image_id'),
+  $vpc               = hiera('infrastructure::ec2::vpc'),) {
   ec2_instance { 'sensu-server':
     ensure             => present,
-    availability_zone  => 'us-east-1d',
-    image_id           => 'ami-12663b7a',
-    instance_type      => 't2.micro',
-    key_name           => 'DevOps-Keys',
+    availability_zone  => $availability_zone,
+    image_id           => $image_id,
+    instance_type      => $instance_type,
+    key_name           => $key_name,
     private_ip_address => '10.0.0.50',
     user_data          => template('infrastructure/userdata.sh.erb'),
     require            => Ec2_securitygroup['sg_sensu'],
-    region             => 'us-east-1',
+    region             => $region,
     security_groups    => ['sg_sensu'],
-    subnet             => 'DevOps-Public-Subnet',
+    subnet             => $subnet,
     tags               => {
       server_role => 'server_sensu',
     }
@@ -18,8 +25,8 @@ class infrastructure::ec2::sensu () {
 
   ec2_securitygroup { 'sg_sensu':
     ensure      => present,
-    region      => 'us-east-1',
-    vpc         => 'DevOps-GCIO-VPC',
+    region      => $region,
+    vpc         => $vpc,
     description => 'sensu security group',
     ingress     => [
       {
