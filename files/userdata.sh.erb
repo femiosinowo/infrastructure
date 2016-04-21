@@ -1,0 +1,47 @@
+#!/bin/bash
+
+## Install and register Puppet on an EC2 instance.
+
+set -eux
+<% require 'openssl'
+   require 'inifile'
+   digest = OpenSSL::Digest::SHA256.new
+   creds  = IniFile.load(File.join(Dir.home, '.aws/credentials'))
+   secret = creds["default"]["aws_secret_access_key"]
+%>
+
+## Variables
+PUPPET_HOST='puppet.gcio.cloud'
+CERTNAME='<%= @instance_name %>'
+ 
+ENVIRONMENT='<%= @instance_environment %>'
+ 
+## Change hostname, if it's unreachable.
+if ! nc -w 1 -z $(/bin/hostname) 22; then
+    IPV4=`ip addr show eth0 | grep 'inet ' | awk '{print $2}' | sed 's|/.*$||'`
+    echo -ne "\n${IPV4} $(/bin/hostname)" >> /etc/hosts
+fi
+
+## Install Puppet
+if which yum; then
+    yum -qy update
+    yum -qy install puppet3
+else
+    apt-get -q  update
+    apt-get -qy upgrade || true
+    apt-get -qy install puppet
+fi
+
+## Register Puppet
+ 
+
+if ! puppet agent --onetime --no-daemonize --logdest console; then
+    sleep 5
+    puppet agent --onetime --no-daemonize -v -d --trace --logdest console
+<% if ! @debug %>
+else
+    ## Secure Cleanup
+    shred --remove "${CSR_ATTR}" || true
+    shred --remove "$0" || true
+<% end %>
+fi   
