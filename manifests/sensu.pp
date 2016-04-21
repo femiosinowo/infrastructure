@@ -19,6 +19,7 @@ class infrastructure::sensu () {
   ec2_securitygroup { 'sg_sensu':
     ensure      => present,
     region      => 'us-east-1',
+    vpc => 'vpc-410aba25',
     description => 'sensu security group',
     ingress     => [
       {
