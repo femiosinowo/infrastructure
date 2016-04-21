@@ -5,7 +5,7 @@ class infrastructure::sensu () {
     availability_zone => 'us-east-1d',
     image_id          => 'ami-7f418316',
     instance_type     => 't1.micro',
-    subnet            => 'subnet-18ab416e',
+    subnet            => 'DevOps-Public-Subnet',
     key_name          => 'DevOps-Keys',
     security_groups   => ['sg_sensu'],
     associate_public_ip_address => true,
