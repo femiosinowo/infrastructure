@@ -1,4 +1,4 @@
-class infrastructure::sensu () {
+class infrastructure::ec2:sensu () {
   ec2_instance { 'sensu-server':
     ensure            => present,
     region            => 'us-east-1',
@@ -63,9 +63,11 @@ class infrastructure::sensu () {
         protocol => 'tcp',
         port     => '15672',
         cidr     => '0.0.0.0/0',
-      },{
-    security_group => 'sg_sensu',
-  }
+      }
+      ,
+      {
+        security_group => 'sg_sensu',
+      }
       ],
     tags        => {
       reason => 'ec2-sensu',
