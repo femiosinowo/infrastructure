@@ -24,6 +24,12 @@ class infrastructure::ec2::sensu () {
     ingress     => [
       {
         protocol => 'tcp',
+        port     => '22',
+        cidr     => '0.0.0.0/0',
+      }
+      ,
+      {
+        protocol => 'tcp',
         port     => '3000',
         cidr     => '0.0.0.0/0',
       }
