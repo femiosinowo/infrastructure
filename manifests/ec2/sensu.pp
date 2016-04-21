@@ -1,17 +1,17 @@
 class infrastructure::ec2::sensu () {
   ec2_instance { 'sensu-server':
     ensure             => present,
-    region             => 'us-east-1',
     availability_zone  => 'us-east-1d',
-    image_id           => 'ami-7f418316',
-    instance_type      => 't1.micro',
-    subnet             => 'DevOps-Public-Subnet',
+    image_id           => 'ami-12663b7a',
+    instance_type      => 't2.micro',
     key_name           => 'DevOps-Keys',
-    security_groups    => ['sg_sensu'],
     associate_public_ip_address => true,
     private_ip_address => '10.0.0.50',
     user_data          => template('infrastructure/userdata.sh.erb'),
     require            => Ec2_securitygroup['sg_sensu'],
+    region             => 'us-east-1',
+    security_groups    => ['sg_sensu'],
+    subnet             => 'DevOps-Public-Subnet',
     tags               => {
       server_roles => 'server_sensu',
     }
