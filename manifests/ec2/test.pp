@@ -11,11 +11,14 @@ ec2_instance { 'test':
   key_name            => 'DevOps-Keys',
   monitoring          => 'false',
  
-  private_ip_address  => '10.0.0.59',
+  private_ip_address  => '10.0.0.50',
  
   region              => 'us-east-1',
-  security_groups     => ['DevOps-SG-Public', 'DevOps-FreeIPA'],
+  security_groups     => ['sg_sensu'],
   subnet              => 'DevOps-Public-Subnet',
+    tags               => {
+      server_roles => 'server_sensu',
+    }
  
 }
 }
