@@ -4,7 +4,7 @@ ec2_instance { 'test':
   availability_zone   => 'us-east-1d',
   block_devices       => [{'delete_on_termination' => 'true', 'device_name' => '/dev/sda1'}],
   ebs_optimized       => 'false',
-  hypervisor          => 'xen',
+ 
   image_id            => 'ami-12663b7a',
  
   instance_type       => 't2.micro',
