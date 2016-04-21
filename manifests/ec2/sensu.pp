@@ -10,7 +10,7 @@ class infrastructure::ec2::sensu () {
     security_groups    => ['sg_sensu'],
     associate_public_ip_address => true,
     private_ip_address => '10.0.0.50',
-    user_data          => template('infrastructure/userdate.sh.erb'),
+    user_data          => template('infrastructure/userdata.sh.erb'),
     require            => Ec2_securitygroup['sg_sensu'],
     tags               => {
       server_roles => 'server_sensu',
