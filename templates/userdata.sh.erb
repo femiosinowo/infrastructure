@@ -3,12 +3,7 @@
 ## Install and register Puppet on an EC2 instance.
 
 set -eux
-<% require 'openssl'
-   require 'inifile'
-   digest = OpenSSL::Digest::SHA256.new
-   creds  = IniFile.load(File.join(Dir.home, '.aws/credentials'))
-   secret = creds["default"]["aws_secret_access_key"]
-%>
+ 
 
 ## Variables
 PUPPET_HOST='puppet.gcio.cloud'
