@@ -5,7 +5,7 @@ class infrastructure::ec2::sensu () {
     image_id           => 'ami-12663b7a',
     instance_type      => 't2.micro',
     key_name           => 'DevOps-Keys',
-    associate_public_ip_address => true,
+ 
     private_ip_address => '10.0.0.50',
     user_data          => template('infrastructure/userdata.sh.erb'),
     require            => Ec2_securitygroup['sg_sensu'],
