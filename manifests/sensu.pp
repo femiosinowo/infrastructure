@@ -7,7 +7,7 @@ class infrastructure::sensu () {
     instance_type     => 't1.micro',
     # monitoring        => true,
     key_name          => 'DevOps-Keys',
-    security_groups   => ['sg-sensu'],
+    security_groups   => ['sg_sensu'],
     # user_data         => template('module/file-path.sh.erb'),
     tags              => {
       server_roles => 'server_sensu',
@@ -15,7 +15,7 @@ class infrastructure::sensu () {
     ,
   }
 
-  ec2_securitygroup { 'sg-sensu':
+  ec2_securitygroup { 'sg_sensu':
     ensure      => present,
     region      => 'us-east-1',
     description => 'sensu security group',
