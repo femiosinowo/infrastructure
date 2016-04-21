@@ -2,10 +2,10 @@ class infrastructure::sensu () {
   ec2_instance { 'sensu-server':
     ensure            => present,
     region            => 'us-east-1',
-    availability_zone => 'us-east-1a',
+    availability_zone => 'us-east-1d',
     image_id          => 'ami-7f418316',
     instance_type     => 't1.micro',
-    # monitoring        => true,
+    subnet            => 'subnet-18ab416e',
     key_name          => 'DevOps-Keys',
     security_groups   => ['sg_sensu'],
     # user_data         => template('module/file-path.sh.erb'),
