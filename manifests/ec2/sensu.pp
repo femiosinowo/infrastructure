@@ -84,10 +84,10 @@ class infrastructure::ec2::sensu (
         port     => '15672',
         cidr     => '0.0.0.0/0',
       }
-      ,
-      {
-        security_group => 'sg_sensu',
-      }
+#      ,
+#      {
+#        security_group => 'sg_sensu',
+#      }
       ],
     tags        => {
       reason => 'ec2-sensu',
