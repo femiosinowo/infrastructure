@@ -1,5 +1,5 @@
 class infrastructure::ec2::elkstack (
-  $ip_addr  = '10.0.0.52',
+  $ip_addr  = '10.0.0.53',
   $server_role               = 'server_elkstack',
   $security_group_name       = "sg_elkstack",
   $availability_zone         = hiera('infrastructure::ec2::availability_zone'),
