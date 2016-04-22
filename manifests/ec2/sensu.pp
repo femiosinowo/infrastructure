@@ -24,6 +24,11 @@ class infrastructure::ec2::sensu (
       server_role => 'server_sensu',
     }
   }
+  
+  fact { 'server_role':
+  content => 'server_sensu',
+  ensure  => present,
+}
 
   ec2_securitygroup { 'sg_sensu':
     ensure      => present,
