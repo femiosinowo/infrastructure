@@ -25,7 +25,8 @@ TAG_VALUE=$(aws ec2 describe-tags --filters "Name=resource-id,Values=$INSTANCE_I
 
 mkdir -p /etc/facter/facts.d
 cd /etc/facter/facts.d
-echo 'server_role = $TAG_VALUE' > role.txt
+ 
+echo "server_role = $TAG_VALUE " > role.txt
  
 #puppet apply --modulepath=/root/dev/modules -e " fact { 'server_role':  content => $TAG_VALUE,  ensure  => present, } "   
 
