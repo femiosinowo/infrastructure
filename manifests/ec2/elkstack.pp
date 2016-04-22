@@ -70,6 +70,11 @@ class infrastructure::ec2::elkstack (
         protocol => 'tcp',
         port     => '5044',
         cidr     => '0.0.0.0/0',
+      }     ,
+      {
+        protocol => 'tcp',
+        port     => '5601',
+        cidr     => '0.0.0.0/0',
       }
       ,
       {
