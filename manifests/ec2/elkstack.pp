@@ -1,17 +1,26 @@
 class infrastructure::ec2::elkstack (
-  $ip_addr  = '10.0.0.53',
+  $hostname = 'elkstack.gcio.cloud.', # don't forget it must always end with a dot.
+  $ensure_value              = 'present',
+  $ip_addr  = '10.0.0.52',
   $server_role               = 'server_elkstack',
   $security_group_name       = "sg_elkstack",
   $availability_zone         = hiera('infrastructure::ec2::availability_zone'),
-  $instance_type             ='t2.small', # hiera('infrastructure::ec2::instance_type'),
+  $instance_type             = 't2.small', # hiera('infrastructure::ec2::instance_type'),
   $key_name = hiera('infrastructure::ec2::key_name'),
   $region   = hiera('infrastructure::ec2::region'),
   $subnet   = hiera('infrastructure::ec2::subnet'),
   $image_id = hiera('infrastructure::ec2::image_id'),
   $vpc      = hiera('infrastructure::ec2::vpc'),
   $iam_instance_profile_name = hiera('infrastructure::ec2::iam_instance_profile_name'),) {
-  ec2_instance {  $server_role:
-    ensure    => present,
+  route53_a_record { $hostname:
+    ensure => $ensure_value,
+    ttl    => '300',
+    values => [$ip_addr],
+    zone   => 'gcio.cloud.',
+  }
+
+  ec2_instance { $server_role:
+    ensure    => $ensure_value,
     availability_zone         => $availability_zone,
     image_id  => $image_id,
     instance_type             => $instance_type,
@@ -34,7 +43,7 @@ class infrastructure::ec2::elkstack (
   #  }
 
   ec2_securitygroup { $security_group_name:
-    ensure      => present,
+    ensure      => $ensure_value,
     region      => $region,
     vpc         => $vpc,
     description => 'Elkstack Security group',
@@ -47,10 +56,25 @@ class infrastructure::ec2::elkstack (
       ,
       {
         protocol => 'tcp',
-        port     => '8080',
+        port     => '80',
         cidr     => '0.0.0.0/0',
       }
-
+      ,
+      {
+        protocol => 'tcp',
+        port     => '9200',
+        cidr     => '0.0.0.0/0',
+      }
+      ,
+      {
+        protocol => 'tcp',
+        port     => '5044',
+        cidr     => '0.0.0.0/0',
+      }
+      ,
+      {
+        security_group => $security_group_name,
+      }
       ],
     tags        => {
       reason => $security_group_name,

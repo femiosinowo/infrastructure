@@ -7,6 +7,14 @@ class infrastructure::ec2::sensu (
   $image_id = hiera('infrastructure::ec2::image_id'),
   $vpc      = hiera('infrastructure::ec2::vpc'),
   $iam_instance_profile_name = hiera('infrastructure::ec2::iam_instance_profile_name'),) {
+    
+      route53_a_record { 'sensu.gcio.cloud.':
+    ensure => 'present',
+    ttl    => '300',
+    values => ['10.0.0.50'],
+    zone   => 'gcio.cloud.',
+  }
+  
   ec2_instance { 'sensu-server':
     ensure    => present,
     availability_zone         => $availability_zone,

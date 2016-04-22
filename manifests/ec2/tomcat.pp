@@ -1,4 +1,7 @@
 class infrastructure::ec2::tomcat (
+  $hostname = 'tomcat.gcio.cloud.', # don't forget it must always end with a dot.
+  $ensure_value              = 'absent',
+  $server_role               = 'server_tomcat',
   $ip_addr  = '10.0.0.51',
   $security_group_name       = "sg_tomcat",
   $availability_zone         = hiera('infrastructure::ec2::availability_zone'),
@@ -9,8 +12,15 @@ class infrastructure::ec2::tomcat (
   $image_id = hiera('infrastructure::ec2::image_id'),
   $vpc      = hiera('infrastructure::ec2::vpc'),
   $iam_instance_profile_name = hiera('infrastructure::ec2::iam_instance_profile_name'),) {
+  route53_a_record { $hostname:
+    ensure => $ensure_value,
+    ttl    => '300',
+    values => [$ip_addr],
+    zone   => 'gcio.cloud.',
+  }
+
   ec2_instance { 'server-tomcat':
-    ensure    => absent,
+    ensure    => $ensure_value,
     availability_zone         => $availability_zone,
     image_id  => $image_id,
     instance_type             => $instance_type,
@@ -33,7 +43,7 @@ class infrastructure::ec2::tomcat (
   #  }
 
   ec2_securitygroup { $security_group_name:
-    ensure      => present,
+    ensure      => $ensure_value,
     region      => $region,
     vpc         => $vpc,
     description => 'Tomcat Security group',
