@@ -19,4 +19,5 @@ export FACTER_SERVER_ROLE="$TAG_VALUE"
 
 
 echo "Running puppet agent -t"
+service puppet start
 puppet agent -t
