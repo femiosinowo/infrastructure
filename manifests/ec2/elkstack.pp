@@ -1,6 +1,6 @@
 class infrastructure::ec2::elkstack (
   $ip_addr  = '10.0.0.52',
-  $server_role               = 'server_tomcat',
+  $server_role               = 'server_elkstack',
   $security_group_name       = "sg_elkstack",
   $availability_zone         = hiera('infrastructure::ec2::availability_zone'),
   $instance_type             ='t2.small', # hiera('infrastructure::ec2::instance_type'),
@@ -10,7 +10,7 @@ class infrastructure::ec2::elkstack (
   $image_id = hiera('infrastructure::ec2::image_id'),
   $vpc      = hiera('infrastructure::ec2::vpc'),
   $iam_instance_profile_name = hiera('infrastructure::ec2::iam_instance_profile_name'),) {
-  ec2_instance { 'server-elkstack':
+  ec2_instance {  $server_role:
     ensure    => absent,
     availability_zone         => $availability_zone,
     image_id  => $image_id,
