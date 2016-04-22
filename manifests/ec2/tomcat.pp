@@ -10,7 +10,7 @@ class infrastructure::ec2::tomcat (
   $vpc      = hiera('infrastructure::ec2::vpc'),
   $iam_instance_profile_name = hiera('infrastructure::ec2::iam_instance_profile_name'),) {
   ec2_instance { 'server-tomcat':
-    ensure    => present,
+    ensure    => absent,
     availability_zone         => $availability_zone,
     image_id  => $image_id,
     instance_type             => $instance_type,
