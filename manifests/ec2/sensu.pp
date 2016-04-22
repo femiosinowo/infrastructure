@@ -25,6 +25,7 @@ class infrastructure::ec2::sensu (
     }
   }
 
+
 #  fact { 'server_role':
 #    content => 'server_sensu',
 #    ensure  => present,

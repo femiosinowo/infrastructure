@@ -12,7 +12,9 @@ REGION=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/documen
 # Grab tag value
 TAG_VALUE=$(aws ec2 describe-tags --filters "Name=resource-id,Values=$INSTANCE_ID" "Name=key,Values=$TAG_NAME" --region=$REGION --output=text | cut -f5)
 
-#echo "$TAG_VALUE"
+mkdir -p /etc/facter/facts.d
+puppet apply --modulepath=/root/dev/modules -e " fact { 'server_role':  content => $TAG_VALUE,  ensure  => present, } "   
+
 export FACTER_SERVER_ROLE="$TAG_VALUE"
 
 
