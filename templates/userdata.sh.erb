@@ -1,6 +1,17 @@
 #!/bin/bash
 #run puppet
 sudo bash
+
+rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm
+yum --enablerepo=puppetlabs-devel install puppet -y
+
+puppet config set server puppet.gcio.cloud --section agent
+puppet config set environment production --section agent
+
+chkconfig puppet on
+ 
+
+
 #this scripts gets Role and source it as fact
 
 TAG_NAME=server_role
