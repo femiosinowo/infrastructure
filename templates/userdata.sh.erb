@@ -18,7 +18,7 @@ echo 'server_role = $TAG_VALUE' > role.txt
  
 #puppet apply --modulepath=/root/dev/modules -e " fact { 'server_role':  content => $TAG_VALUE,  ensure  => present, } "   
 
-export FACTER_SERVER_ROLE="$TAG_VALUE"
+#export FACTER_SERVER_ROLE="$TAG_VALUE"
 
 
 echo "Running puppet agent -t"
