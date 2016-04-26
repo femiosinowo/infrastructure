@@ -21,9 +21,15 @@ class infrastructure::ec2::tomcat (
       require => Ec2_instance['deleteEC2'],
     }
 
-    route53_a_record { '${hostname}.' :   ensure => $ensure_value, }
+    route53_a_record { 'route53':
+      name   => '${hostname}.',
+      ensure => $ensure_value,
+    }
 
-    ec2_instance { 'deleteEC2': name => $hostname ,  ensure => absent, }
+    ec2_instance { 'deleteEC2':
+      name   => $hostname,
+      ensure => absent,
+    }
 
     ec2_securitygroup { $security_group_name:
       ensure  => $ensure_value,
