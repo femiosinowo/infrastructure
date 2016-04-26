@@ -28,8 +28,13 @@ cd /etc/facter/facts.d
  
 echo "server_role=$TAG_VALUE" > role.txt
  
-#puppet apply --modulepath=/root/dev/modules -e " fact { 'server_role':  content => $TAG_VALUE,  ensure  => present, } "   
+ #this is for setting hostname 
+SERVER=$(aws ec2 describe-tags --filters "Name=resource-id,Values=$(wget -q -O - http://169.254.169.254/latest/meta-data/instance-id)" --query 'Tags[*].Value' --output text)
+PRIVATE_IP=$(curl http://169.254.169.254/latest/meta-data/local-ipv4) 
+sed -i "s/^\(HOSTNAME\s*=\s*\).*$/\1$SERVER/" /etc/sysconfig/network
+echo "$PRIVATE_IP $SERVER" >> /etc/hosts
 
+#puppet apply --modulepath=/root/dev/modules -e " fact { 'server_role':  content => $TAG_VALUE,  ensure  => present, } "  
 #export FACTER_SERVER_ROLE="$TAG_VALUE"
 
 
