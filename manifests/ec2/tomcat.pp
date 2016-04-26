@@ -18,7 +18,7 @@ class infrastructure::ec2::tomcat (
     exec { "puppet cert clean ip-10-0-0-51.gcio.cloud":
       cwd     => "/var/tmp",
       path    => ["/usr/bin"],
-      require => Ec2_instance[$server_role],
+      require => Ec2_instance['deleteEC2'],
     }
 
     route53_a_record { $hostname: ensure => $ensure_value, }
