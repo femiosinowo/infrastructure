@@ -1,14 +1,37 @@
 class infrastructure::ec2::activemq () {
-  ec2_instance { 'activemq':
-    ensure            => 'running',
-    availability_zone => 'us-east-1d',
-    ebs_optimized     => 'false',
-    image_id          => 'ami-2051294a',
-    instance_type     => 't2.micro',
-    key_name          => 'DevOps-Keys',
-    monitoring        => 'false',
-    region            => 'us-east-1',
-    security_groups   => ['ActiveMQ'],
-    subnet            => 'DevOps-Public-Subnet',
+  infrastructure::ec2::template { 'activemq':
+    hostname                   => 'activemq.gcio.cloud',
+    ensure_value               => 'running',
+    server_role                => 'server_activemq',
+    ip_addr                    => '10.0.0.65',
+    security_group_name        => "sg_activemq",
+    security_group_description => "activemq Security groups",
+    security_group_ingress     => [
+      {
+        protocol => 'tcp',
+        port     => '22',
+        cidr     => '0.0.0.0/0',
+      }
+      ,
+      {
+        protocol => 'tcp',
+        port     => '61613',
+        cidr     => '0.0.0.0/0',
+      }
+      ,
+      {
+        protocol => 'tcp',
+        port     => '61614',
+        cidr     => '0.0.0.0/0',
+      }
+       ,
+      {
+        protocol => 'tcp',
+        port     => '61616',
+        cidr     => '0.0.0.0/0',
+      }
+
+      ],
   }
+
 }

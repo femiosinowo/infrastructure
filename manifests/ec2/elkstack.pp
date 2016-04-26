@@ -1,49 +1,12 @@
-class infrastructure::ec2::elkstack (
-  $hostname = 'elkstack.gcio.cloud.', # don't forget it must always end with a dot.
-  $ensure_value              = 'present',
-  $ip_addr  = '10.0.0.52',
-  $server_role               = 'server_elkstack',
-  $security_group_name       = "sg_elkstack",
-  $availability_zone         = hiera('infrastructure::ec2::availability_zone'),
-  $instance_type             = 't2.small', # hiera('infrastructure::ec2::instance_type'),
-  $key_name = hiera('infrastructure::ec2::key_name'),
-  $region   = hiera('infrastructure::ec2::region'),
-  $subnet   = hiera('infrastructure::ec2::subnet'),
-  $image_id = hiera('infrastructure::ec2::image_id'),
-  $vpc      = hiera('infrastructure::ec2::vpc'),
-  $iam_instance_profile_name = hiera('infrastructure::ec2::iam_instance_profile_name'),) {
-  route53_a_record { $hostname:
-    ensure => $ensure_value,
-    ttl    => '300',
-    values => [$ip_addr],
-    zone   => 'gcio.cloud.',
-  }
-
-  ec2_instance { $server_role:
-    ensure    => $ensure_value,
-    availability_zone         => $availability_zone,
-    image_id  => $image_id,
-    instance_type             => $instance_type,
-    key_name  => $key_name,
-    private_ip_address        => $ip_addr,
-    user_data => template('infrastructure/userdata.sh.erb'),
-    require   => Ec2_securitygroup[$security_group_name],
-    region    => $region,
-    security_groups           => [$security_group_name],
-    iam_instance_profile_name => $iam_instance_profile_name,
-    subnet    => $subnet,
-    tags      => {
-      server_role => $server_role,
-    }
-  }
-
-
-  ec2_securitygroup { $security_group_name:
-    ensure      => $ensure_value,
-    region      => $region,
-    vpc         => $vpc,
-    description => 'Elkstack Security group',
-    ingress     => [
+class infrastructure::ec2::elkstack () {
+  infrastructure::ec2::template { 'elkstack':
+    hostname                   => 'elkstack.gcio.cloud',
+    ensure_value               => 'present',
+    server_role                => 'server_elkstack',
+    ip_addr                    => '10.0.0.52',
+    security_group_name               => "sg_elkstack",
+    security_group_description => "Elkstack Security groups",
+    security_group_ingress     => [
       {
         protocol => 'tcp',
         port     => '22',
@@ -66,20 +29,15 @@ class infrastructure::ec2::elkstack (
         protocol => 'tcp',
         port     => '5044',
         cidr     => '0.0.0.0/0',
-      }     ,
+      }
+      ,
       {
         protocol => 'tcp',
         port     => '5601',
         cidr     => '0.0.0.0/0',
       }
-      ,
-      {
-        security_group => $security_group_name,
-      }
+
       ],
-    tags        => {
-      reason => $security_group_name,
-    }
-    ,
   }
+
 }
