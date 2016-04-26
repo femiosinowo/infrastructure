@@ -1,6 +1,6 @@
 class infrastructure::ec2::tomcat (
   $hostname = 'tomcat.gcio.cloud',
-  $hostnameR53               = '${hostname}.',
+  $hostnameR53               = '$hostname.',
   # don't forget it must always end with a dot.
   $ensure_value              = 'present',
   $server_role               = 'server_tomcat',
