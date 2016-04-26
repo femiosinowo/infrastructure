@@ -81,10 +81,10 @@ class infrastructure::ec2::tomcat (
         }
 
         ],
-      tags        => {
-        reason => $security_group_name,
-      }
-      ,
+    #      tags        => {
+    #        reason => $security_group_name,
+    #      }
+    #      ,
     }
   }
 }
