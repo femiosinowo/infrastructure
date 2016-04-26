@@ -56,14 +56,9 @@ class infrastructure::ec2::tomcat (
       iam_instance_profile_name => $iam_instance_profile_name,
       subnet    => $subnet,
       tags      => {
-        server_role => 'server_tomcat',
+        server_role => $server_role,
       }
     }
-
-    #  fact { 'server_role':
-    #    content => 'server_sensu',
-    #    ensure  => present,
-    #  }
 
     ec2_securitygroup { $security_group_name:
       ensure      => $ensure_value,
