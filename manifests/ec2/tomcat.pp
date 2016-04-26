@@ -23,7 +23,7 @@ class infrastructure::ec2::tomcat (
 
     route53_a_record { $hostname: ensure => $ensure_value, }
 
-    ec2_instance { 'deleteEC2': name => $server_role ,  ensure => $ensure_value, }
+    ec2_instance { 'deleteEC2': name => $server_role ,  ensure => absent, }
 
     ec2_securitygroup { $security_group_name:
       ensure  => $ensure_value,
