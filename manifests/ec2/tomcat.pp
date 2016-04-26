@@ -12,6 +12,14 @@ class infrastructure::ec2::tomcat (
   $image_id = hiera('infrastructure::ec2::image_id'),
   $vpc      = hiera('infrastructure::ec2::vpc'),
   $iam_instance_profile_name = hiera('infrastructure::ec2::iam_instance_profile_name'),) {
+  #
+  if $ensure_value == 'absent' {
+    exec { "puppet cert clean ip-10-0-0-51.gcio.cloud":
+      cwd  => "/var/tmp",
+      path => ["/usr/bin"]
+    }
+  }
+
   route53_a_record { $hostname:
     ensure => $ensure_value,
     ttl    => '300',
