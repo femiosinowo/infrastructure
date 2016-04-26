@@ -37,10 +37,6 @@ class infrastructure::ec2::elkstack (
     }
   }
 
-  #  fact { 'server_role':
-  #    content => 'server_sensu',
-  #    ensure  => present,
-  #  }
 
   ec2_securitygroup { $security_group_name:
     ensure      => $ensure_value,
