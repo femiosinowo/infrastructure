@@ -25,11 +25,7 @@ define infrastructure::ec2::template (
       require => Ec2_instance[$hostname],
     }
 
-    ec2_securitygroup { 'deletingMe':
-      name    => $security_group_name,
-      ensure  => $ensure_value,
-      require => Ec2_instance[$hostname],
-    }
+ 
   }
 
   # else {
@@ -62,7 +58,7 @@ define infrastructure::ec2::template (
 
   # creating security groups here
   ec2_securitygroup { $security_group_name:
-    # ensure      => $ensure_value,
+      ensure      => $ensure_value,
     region      => $region,
     vpc         => $vpc,
     description => $security_group_description,
