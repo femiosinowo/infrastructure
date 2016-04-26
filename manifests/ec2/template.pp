@@ -18,25 +18,25 @@ define infrastructure::ec2::template (
   # end of variables
   ) {
   #
-  if $ensure_value == 'absent' {
-    exec { "puppet cert clean ${hostname}":
-      cwd     => "/var/tmp",
-      path    => ["/usr/bin"],
-      require => Ec2_instance[$hostname],
-    }
+#  if $ensure_value == 'absent' {
+#    exec { "puppet cert clean ${hostname}":
+#      cwd     => "/var/tmp",
+#      path    => ["/usr/bin"],
+#      require => Ec2_instance[$hostname],
+#    }
+#
+#    route53_a_record { "${hostname}.": ensure => $ensure_value, }
+#
+#    ec2_instance { $hostname:
+#      ensure => absent,
+#    }
+#
+#    ec2_securitygroup { $security_group_name:
+#      ensure  => $ensure_value,
+#      require => Ec2_instance[$hostname],
+#    }
 
-    route53_a_record { "${hostname}.": ensure => $ensure_value, }
-
-    ec2_instance { $hostname:
-      ensure => absent,
-    }
-
-    ec2_securitygroup { $security_group_name:
-      ensure  => $ensure_value,
-      require => Ec2_instance[$hostname],
-    }
-
-  } else {
+ # } else {
     # creating dns record here
     route53_a_record { "${hostname}.":
       ensure => $ensure_value,
@@ -79,5 +79,5 @@ define infrastructure::ec2::template (
     #      ,
     }
 
-  }
+  #}
 }
