@@ -24,6 +24,11 @@ class infrastructure::ec2::tomcat (
 
     ec2_instance { $server_role: ensure => $ensure_value, }
 
+    ec2_securitygroup { $security_group_name:
+      ensure  => $ensure_value,
+      require => Ec2_instance[$server_role],
+    }
+
   } else {
     route53_a_record { $hostname:
       ensure => $ensure_value,
