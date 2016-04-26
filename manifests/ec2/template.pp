@@ -27,14 +27,13 @@ define infrastructure::ec2::template (
 
     route53_a_record { "${hostname}.": ensure => $ensure_value, }
 
-    ec2_instance { 'deleteEC2':
-      name   => $hostname,
+    ec2_instance { $hostname:
       ensure => absent,
     }
 
     ec2_securitygroup { $security_group_name:
       ensure  => $ensure_value,
-      require => Ec2_instance['deleteEC2'],
+      require => Ec2_instance[$hostname],
     }
 
   } else {
