@@ -22,7 +22,7 @@ define infrastructure::ec2::template (
     exec { "puppet cert clean ${hostname}":
       cwd     => "/var/tmp",
       path    => ["/usr/bin"],
-      require => Ec2_instance['deleteEC2'],
+      require => Ec2_instance[$hostname],
     }
 
     route53_a_record { "${hostname}.": ensure => $ensure_value, }
