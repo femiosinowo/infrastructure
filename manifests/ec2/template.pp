@@ -72,7 +72,7 @@ define infrastructure::ec2::template (
       vpc         => $vpc,
       description => $security_group_description,
       ingress     => $security_group_ingress,
-      require     => Ec2_instance[$hostname],
+      #require     => Ec2_instance[$hostname],
 
     #      tags        => {
     #        reason => $security_group_name,
