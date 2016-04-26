@@ -20,12 +20,12 @@ class infrastructure::ec2::tomcat (
       path => ["/usr/bin"]
     }
 
-    route53_a_record { $hostname: ensure => $ensure_value, }
+    route53_a_record { $hostname: ensure => absent, }
 
-    ec2_instance { $server_role: ensure => $ensure_value, }
+    ec2_instance { $server_role: ensure => absent, }
 
     ec2_securitygroup { $security_group_name:
-      ensure  => $ensure_value,
+      ensure  => absent,
       require => Ec2_instance[$server_role],
     }
 
