@@ -38,6 +38,7 @@ class infrastructure::ec2::tomcat (
 
   } else {
     route53_a_record { $hostname:
+      name   => '${hostname}.',
       ensure => $ensure_value,
       ttl    => '300',
       values => [$ip_addr],
