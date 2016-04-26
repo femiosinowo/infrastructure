@@ -27,7 +27,7 @@ class infrastructure::ec2::tomcat (
     zone   => 'gcio.cloud.',
   }
 
-  ec2_instance { 'server-tomcat':
+  ec2_instance { $server_role:
     ensure    => $ensure_value,
     availability_zone         => $availability_zone,
     image_id  => $image_id,
@@ -35,7 +35,7 @@ class infrastructure::ec2::tomcat (
     key_name  => $key_name,
     private_ip_address        => $ip_addr,
     user_data => template('infrastructure/userdata.sh.erb'),
-    #require   => Ec2_securitygroup[$security_group_name],
+    # require   => Ec2_securitygroup[$security_group_name],
     region    => $region,
     security_groups           => [$security_group_name],
     iam_instance_profile_name => $iam_instance_profile_name,
@@ -55,6 +55,7 @@ class infrastructure::ec2::tomcat (
     region      => $region,
     vpc         => $vpc,
     description => 'Tomcat Security group',
+    require     => Ec2_instance[$server_role],
     ingress     => [
       {
         protocol => 'tcp',
