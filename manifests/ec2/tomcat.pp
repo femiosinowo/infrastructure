@@ -1,7 +1,7 @@
 class infrastructure::ec2::tomcat (
   $hostname = 'tomcat.gcio.cloud.',
   # don't forget it must always end with a dot.
-  $ensure_value              = 'absent',
+  $ensure_value              = 'present',
   $server_role               = 'server_tomcat',
   $ip_addr  = '10.0.0.51',
   $security_group_name       = "sg_tomcat",
