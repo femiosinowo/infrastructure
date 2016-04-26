@@ -24,13 +24,13 @@ class infrastructure::ec2::activemq () {
         port     => '61614',
         cidr     => '0.0.0.0/0',
       }
-       ,
+      ,
       {
         protocol => 'tcp',
-        port     => '61616',
+        port     => '8161',
         cidr     => '0.0.0.0/0',
       }
- ,
+      ,
       {
         'cidr'      => '0.0.0.0/0',
         'from_port' => '-1',
