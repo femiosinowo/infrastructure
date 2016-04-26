@@ -1,6 +1,6 @@
 class infrastructure::ec2::tomcat (
   $hostname = 'tomcat.gcio.cloud',
-  $hostnameR53               = '$hostname.',
+  $hostnameR53               = "${hostname}.",
   # don't forget it must always end with a dot.
   $ensure_value              = 'present',
   $server_role               = 'server_tomcat',
@@ -22,7 +22,7 @@ class infrastructure::ec2::tomcat (
       require => Ec2_instance['deleteEC2'],
     }
 
-    route53_a_record { $hostnameR53: ensure => $ensure_value, }
+    route53_a_record { "${hostname}.": ensure => $ensure_value, }
 
     ec2_instance { 'deleteEC2':
       name   => $hostname,
@@ -35,7 +35,7 @@ class infrastructure::ec2::tomcat (
     }
 
   } else {
-    route53_a_record { $hostnameR53:
+    route53_a_record { "${hostname}.":
       ensure => $ensure_value,
       ttl    => '300',
       values => [$ip_addr],
