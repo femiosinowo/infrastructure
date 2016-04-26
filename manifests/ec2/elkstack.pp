@@ -1,7 +1,7 @@
 class infrastructure::ec2::elkstack () {
   infrastructure::ec2::template { 'elkstack':
     hostname                   => 'elkstack.gcio.cloud',
-    ensure_value               => 'present',
+    ensure_value               => 'absent',
     server_role                => 'server_elkstack',
     ip_addr                    => '10.0.0.52',
     security_group_name               => "sg_elkstack",
