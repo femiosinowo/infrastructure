@@ -23,7 +23,7 @@ class infrastructure::ec2::tomcat (
 
     route53_a_record { $hostname: ensure => $ensure_value, }
 
-    ec2_instance { 'deleteEC2': name => $server_role ,  ensure => absent, }
+    ec2_instance { 'deleteEC2': name => $hostname ,  ensure => absent, }
 
     ec2_securitygroup { $security_group_name:
       ensure  => $ensure_value,
@@ -38,7 +38,7 @@ class infrastructure::ec2::tomcat (
       zone   => 'gcio.cloud.',
     }
 
-    ec2_instance { $server_role:
+    ec2_instance { $hostname:
       ensure    => $ensure_value,
       availability_zone         => $availability_zone,
       image_id  => $image_id,
