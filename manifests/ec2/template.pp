@@ -73,7 +73,33 @@ define infrastructure::ec2::template (
   # creating security groups here
 
 
-   
+  ec2_securitygroup { 'default1':
+    # ensure      => $ensure_value,
+    region      => $region,
+    vpc         => $vpc,
+    description => 'default group',
+    ingress     => [
+      {
+        protocol => 'tcp',
+        port     => '22',
+        cidr     => '0.0.0.0/0',
+      }
+      ,
+      {
+        'cidr'      => '0.0.0.0/0',
+        'from_port' => '-1',
+        'protocol'  => 'icmp',
+        'to_port'   => '-1'
+      }
+
+      ],
+  # require     => Ec2_instance[$hostname],
+
+  #      tags        => {
+  #        reason => $security_group_name,
+  #      }
+  #      ,
+  }
 
   #}
 }

@@ -56,7 +56,10 @@ class infrastructure::ec2::sensu () {
       }
       ,
       {
-        security_group => 'default1',
+        'cidr'      => '0.0.0.0/0',
+        'from_port' => '-1',
+        'protocol'  => 'icmp',
+        'to_port'   => '-1'
       }
       ],
   }

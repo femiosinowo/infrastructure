@@ -30,9 +30,12 @@ class infrastructure::ec2::activemq () {
         port     => '61616',
         cidr     => '0.0.0.0/0',
       }
-  ,
+ ,
       {
-        security_group => 'default',
+        'cidr'      => '0.0.0.0/0',
+        'from_port' => '-1',
+        'protocol'  => 'icmp',
+        'to_port'   => '-1'
       }
       ],
   }

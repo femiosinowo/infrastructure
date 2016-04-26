@@ -36,9 +36,12 @@ class infrastructure::ec2::elkstack () {
         port     => '5601',
         cidr     => '0.0.0.0/0',
       }
-  ,
+ ,
       {
-        security_group => 'default1',
+        'cidr'      => '0.0.0.0/0',
+        'from_port' => '-1',
+        'protocol'  => 'icmp',
+        'to_port'   => '-1'
       }
       ],
   }
