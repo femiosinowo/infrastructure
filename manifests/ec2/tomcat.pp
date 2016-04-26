@@ -16,7 +16,7 @@ class infrastructure::ec2::tomcat (
   $iam_instance_profile_name = hiera('infrastructure::ec2::iam_instance_profile_name'),) {
   #
   if $ensure_value == 'absent' {
-    exec { "puppet cert clean ip-10-0-0-51.gcio.cloud":
+    exec { "puppet cert clean ${hostname}":
       cwd     => "/var/tmp",
       path    => ["/usr/bin"],
       require => Ec2_instance['deleteEC2'],
