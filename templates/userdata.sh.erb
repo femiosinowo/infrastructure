@@ -34,6 +34,7 @@ HOSTNAME=$(aws ec2 describe-tags --filters "Name=resource-id,Values=$INSTANCE_ID
 PRIVATE_IP=$(curl http://169.254.169.254/latest/meta-data/local-ipv4) 
 sed -i "s/^\(HOSTNAME\s*=\s*\).*$/\1$HOSTNAME/" /etc/sysconfig/network
 echo "$PRIVATE_IP $HOSTNAME" >> /etc/hosts
+echo "$HOSTNAME" >> /etc/hostname
 
 #puppet apply --modulepath=/root/dev/modules -e " fact { 'server_role':  content => $TAG_VALUE,  ensure  => present, } "  
 #export FACTER_SERVER_ROLE="$TAG_VALUE"
