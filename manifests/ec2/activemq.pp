@@ -1,7 +1,7 @@
 class infrastructure::ec2::activemq () {
   infrastructure::ec2::template { 'activemq':
     hostname                   => 'activemq.gcio.cloud',
-    ensure_value               => 'running',
+    ensure_value               => 'present',
     server_role                => 'server_activemq',
     ip_addr                    => '10.0.0.65',
     security_group_name        => "sg_activemq",
