@@ -73,7 +73,7 @@ define infrastructure::ec2::template (
   # creating security groups here
 
 
-  ec2_securitygroup { 'default':
+  ec2_securitygroup { 'default1':
     # ensure      => $ensure_value,
     region      => $region,
     vpc         => $vpc,

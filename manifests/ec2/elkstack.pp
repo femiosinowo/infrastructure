@@ -38,7 +38,7 @@ class infrastructure::ec2::elkstack () {
       }
   ,
       {
-        security_group => 'default',
+        security_group => 'default1',
       }
       ],
   }

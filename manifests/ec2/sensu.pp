@@ -56,7 +56,7 @@ class infrastructure::ec2::sensu () {
       }
       ,
       {
-        security_group => 'default',
+        security_group => 'default1',
       }
       ],
   }

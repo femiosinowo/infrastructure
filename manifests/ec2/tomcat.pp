@@ -18,6 +18,10 @@ class infrastructure::ec2::tomcat () {
         port     => '8080',
         cidr     => '0.0.0.0/0',
       }
+      ,
+      {
+        security_group => 'default1',
+      }
 
       ],
   }
