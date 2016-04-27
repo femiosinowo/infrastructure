@@ -6,6 +6,7 @@ class infrastructure::ec2::elkstack () {
     ip_addr                    => '10.0.0.52',
     security_group_name               => "sg_elkstack",
     security_group_description => "Elkstack Security groups",
+    $instance_type              => 't2.small',
     security_group_ingress     => [
       {
         protocol => 'tcp',
